@@ -56,6 +56,12 @@ main {
     padding-left: 1rem;
 }
 
+.nav {
+  justify-content: space-around;
+  padding: 1rem;
+  border-bottom: solid #333;
+}
+
 .nav-link {
   color: var(--primary-color);
   text-decoration: none;
@@ -67,9 +73,21 @@ main {
   width: 50px;
   height: 50px;
   text-indent: -9999em; /* this hides the text but leaves it accessible for screen readers */
+  /* background-color: aqua; replace with icons for each button eventually */
 
 }
 
 .nav-link:hover {
   color: var(--primary-color-hover);
+}
+
+.category {
+  margin-left: 10%;
+  width: fit-content;
+  border-bottom: solid #333;
+}
+
+.textInputs {
+  border-radius: 5px;
+  width: 150px;
 }
