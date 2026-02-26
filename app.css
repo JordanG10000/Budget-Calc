@@ -1,0 +1,75 @@
+/* Define CSS variables for consistent theming across the application */
+:root {
+  --primary-color: #8dc6fc;
+  --primary-color-hover: #7ab0f9;
+  --secondary-color: #f9a825;
+  --alert-color: #f44336;
+  --background-color: #123345;
+  --page-background-color: #fff;
+  --text-color: #333;
+}
+
+body {
+  background-color: var(--page--background-color);
+  color: var(--text-color);
+  font-family: "Sniglet", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+}
+
+/* utility classes */
+.flex {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+/* page style */
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 50px;
+}
+
+.container {
+    background-color: #e1e1e0;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: solid 1px #ccc;
+}
+
+.left {
+    width: 70%;
+}
+
+.right {
+    width: 30%;
+    padding-left: 1rem;
+}
+
+.nav-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1.2em;
+  margin: padding 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  border: solid 1px var(--primary-color);
+  width: 50px;
+  height: 50px;
+  text-indent: -9999em; /* this hides the text but leaves it accessible for screen readers */
+
+}
+
+.nav-link:hover {
+  color: var(--primary-color-hover);
+}
