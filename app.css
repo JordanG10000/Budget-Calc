@@ -60,6 +60,7 @@ main {
   justify-content: space-around;
   padding: 1rem;
   border-bottom: solid #333;
+  position: relative;
 }
 
 .nav-link {
@@ -81,13 +82,23 @@ main {
   color: var(--primary-color-hover);
 }
 
-.category {
+.breadcrumbsLine {
+  position: absolute;
+  /* width: 33rem; not sure on what width measurement to use in order to have it adaptable */
+  height: 10px;
+  background-color: #333;
+  /* Needs to be aligned in the center, not sure what to use in order to do so */
+}
+
+.categoryTitle {
   margin-left: 10%;
   width: fit-content;
   border-bottom: solid #333;
 }
 
 .textInputs {
+  margin-left: 15%;
   border-radius: 5px;
   width: 150px;
 }
+
