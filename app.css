@@ -75,7 +75,48 @@ main {
   height: 50px;
   text-indent: -9999em; /* this hides the text but leaves it accessible for screen readers */
   /* background-color: aqua; replace with icons for each button eventually */
+}
 
+#career{
+  background-image: url(/imgs/Briefcase.png);
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.line{
+  height: 100px;
+  border: 1px solid black;
+  transform: rotate(90deg);
+  margin-top: -25px;
+}
+
+#edu{
+  background-image: url(/imgs/Education.png);
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#hous{
+  background-image: url(/imgs/housing.png);
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#personal{
+  background-image: url(/imgs/lifestyle.png);
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#savings{
+  background-image: url(/imgs/savings.png);
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .nav-link:hover {
@@ -91,14 +132,23 @@ main {
 }
 
 .categoryTitle {
-  margin-left: 10%;
   width: fit-content;
   border-bottom: solid #333;
 }
 
-.textInputs {
-  margin-left: 15%;
+.textButtons {
+  margin: 10px;
+  margin-left: 35px;
+  justify-self: center;
   border-radius: 5px;
   width: 150px;
+  height: 35px;
 }
+
+.buttons{
+  display: flex;
+  flex-direction: rows;
+  justify-items: center;
+}
+
 
