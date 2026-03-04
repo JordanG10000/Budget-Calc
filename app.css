@@ -16,6 +16,7 @@ body {
   font-weight: 400;
   font-style: normal;
   font-size: 16px;
+  margin:0;
 }
 
 /* utility classes */
@@ -64,17 +65,18 @@ main {
 }
 
 .nav-link {
-  color: var(--primary-color);
+  background-color: white;
+  color: white;
   text-decoration: none;
   font-size: 1.2em;
   margin: padding 0.5rem;
   border-radius: 50%;
   transition: all 0.3s ease;
-  border: solid 1px var(--primary-color);
+  border: solid 5px black;
   width: 50px;
   height: 50px;
-  text-indent: -9999em; /* this hides the text but leaves it accessible for screen readers */
-  /* background-color: aqua; replace with icons for each button eventually */
+  text-indent: -9999em;
+  padding:.25rem; 
 }
 
 #career{
@@ -145,10 +147,35 @@ main {
   height: 35px;
 }
 
-.buttons{
-  display: flex;
-  flex-direction: rows;
-  justify-items: center;
+.textButtons:hover {
+  background-color: var(--primary-color-hover);
 }
 
+header {
+  background-color: var(--background-color);
+}
 
+header img {
+  width: 200px;
+  padding:1.5rem;
+  height: auto;
+}
+
+.container {
+  background-color:#D9D9D9;
+  margin-top:100px;
+}
+
+.textButtons {
+  border-color: black;
+  border-radius:7px;
+  border:solid 3px black;
+  
+} 
+
+.buttons {
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items:center;
+  place-content:center;
+}
