@@ -179,3 +179,11 @@ header img {
   place-items:center;
   place-content:center;
 }
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
