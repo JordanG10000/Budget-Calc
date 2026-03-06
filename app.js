@@ -1,5 +1,12 @@
 // --- DOM elements ---
 const canvas = document.getElementById("doughnut");
+const careerBtn = document.getElementById("career");
+const eduBtn = document.getElementById("edu");
+const housingBtn = document.getElementById("hous");
+const personalBtn = document.getElementById("personal");
+const savingsBtn = document.getElementById("savings");
+const pages = document.querySelectorAll(".career, .edu");
+console.log(pages);
 
 let currentChart = null;
 // --- Chart ---
@@ -60,3 +67,27 @@ function refreshChart() {
 // Start a refrehing chart to loop every two seconds
 initChart();
 setInterval(refreshChart, 2000);
+
+//Functions
+function changePage(targetClass) {
+  const target = document.querySelector(targetClass);
+
+  for (let page of pages) {
+    page.classList.remove('show');
+    page.classList.add('hide');
+  }
+  target.classList.remove('hide');
+  target.classList.add('show');
+  console.log("running");
+}
+
+changePage(".career");
+
+// Event listeners
+careerBtn.addEventListener('click', () => {
+  changePage(".career");
+});
+eduBtn.addEventListener('click', () => {
+  changePage(".edu");
+});
+
