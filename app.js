@@ -5,8 +5,8 @@ const eduBtn = document.getElementById("edu");
 const housingBtn = document.getElementById("hous");
 const personalBtn = document.getElementById("personal");
 const savingsBtn = document.getElementById("savings");
-const pages = document.querySelectorAll(".career, .edu");
-console.log(pages);
+const pages = document.querySelectorAll(".career, .edu, .hous, .personal, .savings");
+
 
 let currentChart = null;
 // --- Chart ---
@@ -90,4 +90,16 @@ careerBtn.addEventListener('click', () => {
 eduBtn.addEventListener('click', () => {
   changePage(".edu");
 });
+housingBtn.addEventListener('click', () => {
+  changePage(".hous");
+});
+personalBtn.addEventListener('click', () => {
+  changePage(".personal");
+});
+savingsBtn.addEventListener('click', () => {
+  changePage(".savings");
+});
+
+
+
 
