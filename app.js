@@ -7,16 +7,61 @@ const personalBtn = document.getElementById("personal");
 const savingsBtn = document.getElementById("savings");
 const pages = document.querySelectorAll(".career, .edu, .hous, .personal, .savings");
 
+// Calculations
+
+// let eduTotal = input 1 + input 2
+/* for page in pages {
+      for every input in that page add the inputted numbers;
+}*/
+
+// chart data [edu,]
+
+// Need to fix inputTotals
+
+function inputTotals() {
+  for (let page of pages) {
+    console.log(page)
+    for (let input of page.children) {
+      input.value = 0;
+      console.log(input.value);
+    }
+  }
+}
+
+// Career Select Dropdown
+async function careerSelect() {
+  const selectElement = document.getElementById('occu');
+  const occupationSalaryMap = new Map();
+  try {
+    const response = await fetch('https://eecu-data-server.vercel.app/data');
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const users = await response.json();
+
+    users.forEach(user => {
+      occupationSalaryMap.set(user["Occupation"], user["Salary"]);
+      const option = new Option(user["Occupation"], user["Occupation"]);
+      selectElement.add(option);
+    });
+
+    selectElement.addEventListener('change', () => {
+      salary.textContent = occupationSalaryMap.get(selectElement.value) || '';
+    });
+  } catch (error) {
+    console.error('Error populating user select:', error);
+  }
+}
+careerSelect();
+
 
 let currentChart = null;
 // --- Chart ---
 function buildChartConfig() {
+  inputTotals();
   /*"const inputs" Put all of the inputs when you make them as consts*/
 
-  const labels = ["Career", "Education", "Housing", "Personal", "Savings"];
-  const data = [
-    /*Put the consts in here*/ 2, 5, 626, 62, 6 /* <-- Example Values */,
-  ];
+  const labels = ["Taxes", "Education", "Housing", "Personal", "Savings"];
+  const data = [/* Totals is now definedtotals[1], totals[2], totals[3], totals[4],totals[5]*/];
 
   return {
     type: "doughnut",
@@ -78,7 +123,6 @@ function changePage(targetClass) {
   }
   target.classList.remove('hide');
   target.classList.add('show');
-  console.log("running");
 }
 
 changePage(".career");
