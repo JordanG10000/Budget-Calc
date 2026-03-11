@@ -19,13 +19,24 @@ const pages = document.querySelectorAll(".career, .edu, .hous, .personal, .savin
 // Need to fix inputTotals
 
 function inputTotals() {
-  for (let page of pages) {
-    console.log(page)
-    for (let input of page.children) {
-      input.value = 0;
-      console.log(input.value);
+  // Array of final totals
+  const definedtotals = [];
+  for (const page of pages) {
+    // Calculates the total per page
+    let total = 0;
+    const page_values = new Map();
+    for (const input of page.querySelectorAll('.textInputs')) {
+      page_values.set(input.placeholder, 0);
+      input.addEventListener('input', (/** @type {InputEvent & { target: HTMLInputElement }} */ { target }) => {
+        const input_value = Number(target.value);
+        page_values.set(target.placeholder, input_value);
+        total = page_values.values().reduce((a,b) => a + b, 0);
+        console.log(`Page: ${page.classList[0]}\nTotal: ${total}`);
+      });
     }
   }
+  // Need to update the array of totals !!!
+  return definedtotals;
 }
 
 // Career Select Dropdown
@@ -111,7 +122,7 @@ function refreshChart() {
 
 // Start a refrehing chart to loop every two seconds
 initChart();
-setInterval(refreshChart, 2000);
+// setInterval(refreshChart, 2000);
 
 //Functions
 function changePage(targetClass) {
