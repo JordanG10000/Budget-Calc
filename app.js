@@ -16,28 +16,41 @@ const pages = document.querySelectorAll(".career, .edu, .hous, .personal, .savin
 
 // chart data [edu,]
 
-// Need to fix inputTotals
+
+// Array of final totals
+// [taxes, edu, housing, personal, savings]
+const defined_totals = [0, 0, 0, 0, 0];
+
+const edu_values = new Map();
+const hous_values = new Map();
+const personal_values = new Map();
+const savings_values = new Map();
+
+
 
 function inputTotals() {
-  // Array of final totals
-  const definedtotals = [];
-  for (const page of pages) {
-    // Calculates the total per page
-    let total = 0;
-    const page_values = new Map();
-    for (const input of page.querySelectorAll('.textInputs')) {
-      page_values.set(input.placeholder, 0);
-      input.addEventListener('input', (/** @type {InputEvent & { target: HTMLInputElement }} */ { target }) => {
-        const input_value = Number(target.value);
-        page_values.set(target.placeholder, input_value);
-        total = page_values.values().reduce((a,b) => a + b, 0);
-        console.log(`Page: ${page.classList[0]}\nTotal: ${total}`);
-      });
-    }
-  }
-  // Need to update the array of totals !!!
-  return definedtotals;
+
+  // Calculates the total per page
+  updateTotals('edu', edu_values, 1);
+
+  updateTotals('hous', hous_values, 2);
+
+  updateTotals('personal', personal_values, 3);
+
+  updateTotals('savings', savings_values, 4);
 }
+
+function updateTotals(page, page_values, index) {
+  for (const input of document.querySelectorAll(`.${page} .textInputs`)) {
+    page_values.set(input.placeholder, 0);
+    input.addEventListener('input', (/** @type {InputEvent & { target: HTMLInputElement }} */ { target }) => {
+      const input_value = Number(target.value);
+      page_values.set(target.placeholder, input_value);
+      const total = page_values.values().reduce((a, b) => a + b, 0);
+      defined_totals[index] = total;
+    });
+  }
+};
 
 // Career Select Dropdown
 async function careerSelect() {
@@ -65,33 +78,37 @@ async function careerSelect() {
 careerSelect();
 
 
+// Chart does not update correctly
+
 let currentChart = null;
 // --- Chart ---
 function buildChartConfig() {
   inputTotals();
-  /*"const inputs" Put all of the inputs when you make them as consts*/
 
   const labels = ["Taxes", "Education", "Housing", "Personal", "Savings"];
-  const data = [/* Totals is now definedtotals[1], totals[2], totals[3], totals[4],totals[5]*/];
+  // chart_data might not be updating
+  const chart_data = defined_totals;
+  console.log(chart_data);
 
   return {
     type: "doughnut",
     data: {
-      labels,
+      labels: labels,
       datasets: [
         {
           label: "Cost",
-          data,
-          backgroundColor: [
-            "#7DFAFF",
-            "#3300FF",
-            "#FFEC00",
-            "#FF4910",
-            "#1BEDCA",
-          ],
+          data: chart_data,
         },
       ],
     },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "test",
+        }
+      }
+    }
   };
 }
 // Initialize the chart setup
@@ -120,11 +137,11 @@ function refreshChart() {
   currentChart.update();
 }
 
-// Start a refrehing chart to loop every two seconds
+// Start a chart, refreshes every 2 seconds
 initChart();
-// setInterval(refreshChart, 2000);
+setInterval(2000, refreshChart);
 
-//Functions
+// Function to change the page
 function changePage(targetClass) {
   const target = document.querySelector(targetClass);
 
