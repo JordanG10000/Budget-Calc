@@ -21,6 +21,32 @@ const pages = document.querySelectorAll(".career, .edu, .hous, .personal, .savin
 // [taxes, edu, housing, personal, savings]
 const defined_totals = [0, 0, 0, 0, 0];
 
+// taxes
+
+// To find the Taxable Income, subtract the 2026 Standard Deduction of $16,100 from the Gross Income. Then, apply the 2026 Federal Brackets:
+// Rate
+// Income Range
+// 10%
+// $0 to $12,400
+// 12%
+// $12,401 to $50,400
+// 22%
+// Over $50,400
+
+/* 
+let preTax = salary
+taxes = function taxItUP(salary) {
+  preTax -= 16,100
+  if (pretax >= 16, 100) {
+  
+  }
+}
+let net = salary - taxes
+*/
+
+
+
+
 const edu_values = new Map();
 const hous_values = new Map();
 const personal_values = new Map();
@@ -55,6 +81,7 @@ function updateTotals(page, page_values, index) {
 // Career Select Dropdown
 async function careerSelect() {
   const selectElement = document.getElementById('occu');
+  const salary = document.querySelector("#salary")
   const occupationSalaryMap = new Map();
   try {
     const response = await fetch('https://eecu-data-server.vercel.app/data');
@@ -105,7 +132,7 @@ function buildChartConfig() {
       plugins: {
         title: {
           display: true,
-          text: "test",
+          text: "Budget",
         }
       }
     }
@@ -142,9 +169,9 @@ initChart();
 setInterval(2000, refreshChart);
 
 // Function to change the page
-function changePage(targetClass) {
+function changePage(targetClass, navTarget) {
   const target = document.querySelector(targetClass);
-
+  navTarget.style.backgroundColor = "#8dc6fc";
   for (let page of pages) {
     page.classList.remove('show');
     page.classList.add('hide');
@@ -153,25 +180,36 @@ function changePage(targetClass) {
   target.classList.add('show');
 }
 
-changePage(".career");
+changePage(".career", careerBtn);
 
 // Event listeners
-careerBtn.addEventListener('click', () => {
-  changePage(".career");
+careerBtn.addEventListener('click', (e) => {
+  resetColors();
+  changePage(".career", e.target);
 });
-eduBtn.addEventListener('click', () => {
-  changePage(".edu");
+eduBtn.addEventListener('click', (e) => {
+  resetColors();
+  changePage(".edu", e.target);
 });
-housingBtn.addEventListener('click', () => {
-  changePage(".hous");
+housingBtn.addEventListener('click', (e) => {
+  resetColors();
+  changePage(".hous", e.target);
 });
-personalBtn.addEventListener('click', () => {
-  changePage(".personal");
+personalBtn.addEventListener('click', (e) => {
+  resetColors();
+  changePage(".personal", e.target);
 });
-savingsBtn.addEventListener('click', () => {
-  changePage(".savings");
+savingsBtn.addEventListener('click', (e) => {
+  resetColors();
+  changePage(".savings", e.target);
 });
 
-
+function resetColors() {
+  careerBtn.style.backgroundColor = "white";
+  eduBtn.style.backgroundColor = "white";
+  housingBtn.style.backgroundColor = "white";
+  personalBtn.style.backgroundColor = "white";
+  savingsBtn.style.backgroundColor = "white";
+}
 
 
