@@ -6,6 +6,8 @@ const housingBtn = document.getElementById("hous");
 const personalBtn = document.getElementById("personal");
 const savingsBtn = document.getElementById("savings");
 const pages = document.querySelectorAll(".career, .edu, .hous, .personal, .savings");
+const salary = document.getElementById("salary");
+let annualSalary = 0;
 
 // Calculations
 
@@ -23,26 +25,33 @@ const defined_totals = [0, 0, 0, 0, 0];
 
 // taxes
 
-// To find the Taxable Income, subtract the 2026 Standard Deduction of $16,100 from the Gross Income. Then, apply the 2026 Federal Brackets:
-// Rate
-// Income Range
-// 10%
-// $0 to $12,400
-// 12%
-// $12,401 to $50,400
-// 22%
-// Over $50,400
+function taxItUP(salary) {
+  let preTax = salary;
+  let taxes = 0;
+  preTax -= 16100;
 
-/* 
-let preTax = salary
-taxes = function taxItUP(salary) {
-  preTax -= 16,100
-  if (pretax >= 16, 100) {
-  
+  if (preTax <= 0) {
+    return 0;
   }
+
+  taxes += preTax * .0145; // medicare
+  taxes += preTax * .062; // social security
+  taxes += preTax * .04; // state tax
+
+  preTax -= taxes;
+
+  if (preTax > 50400) {
+    taxes += (preTax - 50400) * .22;
+    taxes += (50400 - 12401) * .12;
+  }
+  else if (preTax >= 12401) {
+    taxes += (preTax - 12400) * .12;
+  }
+
+  taxes += 12400 * .1;
+  return taxes / 12;
+
 }
-let net = salary - taxes
-*/
 
 
 
@@ -57,14 +66,13 @@ const savings_values = new Map();
 function inputTotals() {
 
   // Calculates the total per page
+  defined_totals[0] = taxItUP(Number(salary.innerText));
   updateTotals('edu', edu_values, 1);
-
   updateTotals('hous', hous_values, 2);
-
   updateTotals('personal', personal_values, 3);
-
   updateTotals('savings', savings_values, 4);
-}
+}  
+
 
 function updateTotals(page, page_values, index) {
   for (const input of document.querySelectorAll(`.${page} .textInputs`)) {
@@ -81,22 +89,24 @@ function updateTotals(page, page_values, index) {
 // Career Select Dropdown
 async function careerSelect() {
   const selectElement = document.getElementById('occu');
-  const salary = document.querySelector("#salary")
+  // const salary = document.querySelector("#salary")
   const occupationSalaryMap = new Map();
   try {
     const response = await fetch('https://eecu-data-server.vercel.app/data');
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-    const users = await response.json();
+    const careers = await response.json();
 
-    users.forEach(user => {
-      occupationSalaryMap.set(user["Occupation"], user["Salary"]);
-      const option = new Option(user["Occupation"], user["Occupation"]);
+    careers.forEach(career => {
+      occupationSalaryMap.set(career["Occupation"], career["Salary"]);
+      const option = new Option(career["Occupation"], career["Occupation"]);
       selectElement.add(option);
     });
 
     selectElement.addEventListener('change', () => {
       salary.textContent = occupationSalaryMap.get(selectElement.value) || '';
+      annualSalary = occupationSalaryMap.get(selectElement.value) || 0;
+      console.log(annualSalary);
     });
   } catch (error) {
     console.error('Error populating user select:', error);
@@ -105,17 +115,21 @@ async function careerSelect() {
 careerSelect();
 
 
-// Chart does not update correctly
 
+
+
+
+// Chart does not update correctly
 let currentChart = null;
+
 // --- Chart ---
 function buildChartConfig() {
   inputTotals();
 
   const labels = ["Taxes", "Education", "Housing", "Personal", "Savings"];
+
   // chart_data might not be updating
   const chart_data = defined_totals;
-  console.log(chart_data);
 
   return {
     type: "doughnut",
@@ -138,6 +152,8 @@ function buildChartConfig() {
     }
   };
 }
+
+
 // Initialize the chart setup
 function initChart() {
   if (typeof Chart === "undefined") {
@@ -149,6 +165,8 @@ function initChart() {
   currentChart = new Chart(canvas, cfg);
   return currentChart;
 }
+
+
 
 //Update the existing chart as you input values
 function refreshChart() {
@@ -164,9 +182,17 @@ function refreshChart() {
   currentChart.update();
 }
 
+
+
 // Start a chart, refreshes every 2 seconds
 initChart();
-setInterval(2000, refreshChart);
+// setInterval(refreshChart, 2000);
+const inputs = document.querySelectorAll("input");
+inputs.forEach( i => {
+  i.addEventListener("change", refreshChart)
+});
+
+
 
 // Function to change the page
 function changePage(targetClass, navTarget) {
@@ -181,6 +207,8 @@ function changePage(targetClass, navTarget) {
 }
 
 changePage(".career", careerBtn);
+
+
 
 // Event listeners
 careerBtn.addEventListener('click', (e) => {
