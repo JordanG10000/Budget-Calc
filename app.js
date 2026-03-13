@@ -7,7 +7,11 @@ const personalBtn = document.getElementById("personal");
 const savingsBtn = document.getElementById("savings");
 const pages = document.querySelectorAll(".career, .edu, .hous, .personal, .savings");
 const salary = document.getElementById("salary");
+const monthlyCelery = document.querySelector('#monthly-salary');
+const indicator = document.querySelector(".indicator");
+const protip = document.querySelector(".proTip");
 let annualSalary = 0;
+let netMonthly = 0;
 
 // Calculations
 
@@ -66,18 +70,42 @@ const savings_values = new Map();
 function inputTotals() {
 
   // Calculates the total per page
-  defined_totals[0] = taxItUP(Number(salary.innerText));
+  defined_totals[0] = taxItUP(annualSalary);
   updateTotals('edu', edu_values, 1);
   updateTotals('hous', hous_values, 2);
   updateTotals('personal', personal_values, 3);
   updateTotals('savings', savings_values, 4);
-}  
+  let total = 0;
+  let monthlySalary = annualSalary / 12;
+  for (let i = 0; i < defined_totals.length; i++) {
+    total += defined_totals[i];
+  }
+  netMonthly = monthlySalary - total;
+  indicator.textContent = `${netMonthly.toFixed(2)}`
+  if (netMonthly < 0) {
+    indicator.style.color = "red";
+  }
+  else if (netMonthly == 0) {
+    indicator.style.color = "black";
+  }
+  else {
+    indicator.style.color = "green";
+  }
+
+  if (defined_totals[4] > monthlySalary * .1) {
+    protip.classList.add("hide");
+  }
+  else if (annualSalary > 0) {
+    protip.innerHTML = `You are currently saving <b>${Math.floor((defined_totals[4] / monthlySalary) * 100)}%</b> of your income, you should aim for <b>10%</b> or higher!`;
+    protip.classList.remove("hide");
+  }
+
+}
 
 
 function updateTotals(page, page_values, index) {
   for (const input of document.querySelectorAll(`.${page} .textInputs`)) {
-    page_values.set(input.placeholder, 0);
-    input.addEventListener('input', (/** @type {InputEvent & { target: HTMLInputElement }} */ { target }) => {
+    input.addEventListener('change', (/** @type {InputEvent & { target: HTMLInputElement }} */ { target }) => {
       const input_value = Number(target.value);
       page_values.set(target.placeholder, input_value);
       const total = page_values.values().reduce((a, b) => a + b, 0);
@@ -104,9 +132,10 @@ async function careerSelect() {
     });
 
     selectElement.addEventListener('change', () => {
-      salary.textContent = occupationSalaryMap.get(selectElement.value) || '';
+      salary.textContent = `Celery: ${occupationSalaryMap.get(selectElement.value) || '0'}`;
+      monthlyCelery.textContent = `Monthly Celery: ${(occupationSalaryMap.get(selectElement.value)/12).toFixed(2) || '0'}`
       annualSalary = occupationSalaryMap.get(selectElement.value) || 0;
-      console.log(annualSalary);
+      refreshChart();
     });
   } catch (error) {
     console.error('Error populating user select:', error);
@@ -153,7 +182,6 @@ function buildChartConfig() {
   };
 }
 
-
 // Initialize the chart setup
 function initChart() {
   if (typeof Chart === "undefined") {
@@ -188,7 +216,7 @@ function refreshChart() {
 initChart();
 // setInterval(refreshChart, 2000);
 const inputs = document.querySelectorAll("input");
-inputs.forEach( i => {
+inputs.forEach(i => {
   i.addEventListener("change", refreshChart)
 });
 

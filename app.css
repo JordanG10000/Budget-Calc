@@ -17,6 +17,7 @@ body {
   font-style: normal;
   font-size: 16px;
   margin:0;
+  font-size: 1.25rem;
 }
 
 /* utility classes */
@@ -55,6 +56,7 @@ main {
 .right {
     width: 30%;
     padding-left: 1rem;
+    align-items: center;
 }
 
 .nav {
@@ -76,14 +78,34 @@ main {
   width: 50px;
   height: 50px;
   text-indent: -9999em;
-  padding:.25rem; 
-}
-
-#career{
-  background-image: url(/imgs/Briefcase.png);
+  padding:.25rem;
   background-size: 40px;
   background-repeat: no-repeat;
   background-position: center;
+
+  &#career {
+    background-image: url(/imgs/Briefcase.png);
+  }
+
+  &#edu {
+    background-image: url(/imgs/Education.png);
+  }
+
+  &#hous{
+    background-image: url(/imgs/housing.png);
+  }
+
+  &#personal{
+    background-image: url(/imgs/lifestyle.png);
+  }
+
+  &#savings{
+    background-image: url(/imgs/savings.png);
+  }
+
+  &.nav-link:hover {
+    color: var(--primary-color-hover);
+  }
 }
 
 .line{
@@ -93,37 +115,6 @@ main {
   margin-top: -25px;
 }
 
-#edu{
-  background-image: url(/imgs/Education.png);
-  background-size: 40px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#hous{
-  background-image: url(/imgs/housing.png);
-  background-size: 40px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#personal{
-  background-image: url(/imgs/lifestyle.png);
-  background-size: 40px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#savings{
-  background-image: url(/imgs/savings.png);
-  background-size: 40px;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.nav-link:hover {
-  color: var(--primary-color-hover);
-}
 
 .breadcrumbsLine {
   position: absolute;
@@ -198,4 +189,20 @@ header img {
   height: 30px;
   margin-bottom: 1rem;
   padding-left: 5px;
+}
+
+.netsection {
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 0 8px;
+  width: 100%;
+  background-color: var(--page-background-color);
+  border: var(--background-color) 3px solid;
+  border-radius: 15px;
+}
+
+.proTip {
+  justify-self: center;
+  align-self: center;
+  font-size: 1.5rem;
 }
